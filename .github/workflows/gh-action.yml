@@ -8,7 +8,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - id: set-matrix
-        run: echo "::set-output name=matrix::{\"node\":['eu', 'us']}"
+        run: echo "::set-output name=matrix::['eu', 'us']"
   deploy:
     needs: clusters
     name: ${{ matrix.cluster }} deploy
