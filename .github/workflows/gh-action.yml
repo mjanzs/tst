@@ -9,7 +9,7 @@ jobs:
       clusters: ${{ steps.clusters.outputs.regions }}
     steps:
       - id: clusters
-        run: echo "regions=[eu, us]" >> $GITHUB_OUTPUT
+        run: echo "regions=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
     needs: evaluate-clusters
     name: ${{ matrix.cluster }} deploy
