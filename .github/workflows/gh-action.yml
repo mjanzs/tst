@@ -4,11 +4,15 @@ on: push
 jobs:
   clusters:
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.clusters.outputs.test }}
     steps:
-      - run: echo "clusters=['eu', 'us']" >> $GITHUB_OUTPUT
+      - id: clusters
+        run: echo "clusters=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
     needs: clusters
     name: ${{ matrix.cluster }} deploy
+
     strategy:
       matrix: ${{ fromJSON(needs.clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
