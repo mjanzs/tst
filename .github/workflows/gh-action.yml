@@ -6,13 +6,13 @@ jobs:
     name: Evaluate clusters
     runs-on: ubuntu-latest
     outputs:
-      clusters: ${{ steps.clusters.outputs.regions }}
+      clusters: ${{ steps.clusters.outputs }}
     steps:
       - id: clusters
         run: echo "regions=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
     needs: evaluate-clusters
-    name: ${{ matrix.cluster }} deploy
+    name: ${{ matrix.regions }} deploy
     strategy:
       matrix: ${{ fromJSON(needs.evaluate-clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
