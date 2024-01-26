@@ -2,19 +2,19 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: push
 jobs:
-  clusters:
+  evaluate-clusters:
+    name: Evaluate clusters
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.clusters.outputs.test }}
+      clusters: ${{ steps.clusters.outputs.test }}
     steps:
       - id: clusters
         run: echo "clusters=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
-    needs: clusters
+    needs: evaluate-clusters
     name: ${{ matrix.cluster }} deploy
-
     strategy:
-      matrix: ${{ fromJSON(needs.clusters.outputs.clusters) }}
+      matrix: ${{ fromJSON(needs.evaluate-clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
