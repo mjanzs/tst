@@ -6,15 +6,16 @@ jobs:
     name: Evaluate clusters
     runs-on: ubuntu-latest
     outputs:
-      clusters: ${{ steps.clusters.outputs }}
+      clusters: ${{ steps.clusters.outputs.regions }}
     steps:
       - id: clusters
-        run: echo "regions=['eu', 'us']" >> $GITHUB_OUTPUT
+        run: echo "regions=[eu, us]" >> $GITHUB_OUTPUT
   deploy:
     needs: evaluate-clusters
-    name: ${{ matrix.regions }} deploy
+    name: ${{ matrix.cluster }} deploy
     strategy:
-      matrix: ${{ fromJSON(needs.evaluate-clusters.outputs.clusters) }}
+      matrix:
+        cluster: ${{ fromJSON(needs.evaluate-clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
