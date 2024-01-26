@@ -5,12 +5,12 @@ jobs:
   clusters:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "{matrix}=['eu', 'us']" >> $GITHUB_OUTPUT
+      - run: echo "clusters=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
     needs: clusters
     name: ${{ matrix.cluster }} deploy
     strategy:
-      matrix: ${{ fromJSON(needs.clusters.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
