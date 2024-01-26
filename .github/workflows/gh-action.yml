@@ -4,11 +4,8 @@ on: push
 jobs:
   clusters:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - id: set-matrix
-        run: echo "::set-output name=matrix::['eu', 'us']"
+      - run: echo "{matrix}=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
     needs: clusters
     name: ${{ matrix.cluster }} deploy
