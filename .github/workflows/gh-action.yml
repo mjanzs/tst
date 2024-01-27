@@ -29,4 +29,4 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 ${{ matrix.cluster }} job's status is ${{ job.status }}."
+      - run: echo "🍏 ${{ matrix.cluster }} job's status is ${{ job.status }}." >> $GITHUB_STEP_SUMMARY
