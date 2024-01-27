@@ -11,6 +11,7 @@ jobs:
       - id: clusters
         run: echo "regions=['eu', 'us']" >> $GITHUB_OUTPUT
   deploy:
+    environment: stage
     needs: evaluate-clusters
     name: ${{ matrix.cluster }} deploy
     strategy:
