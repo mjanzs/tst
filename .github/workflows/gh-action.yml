@@ -1,8 +1,22 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on: push
 jobs:
-  Explore-GitHub-Actions:
+  evaluate-clusters:
+    name: Evaluate clusters
+    runs-on: ubuntu-latest
+    outputs:
+      clusters: ${{ steps.clusters.outputs.regions }}
+    steps:
+      - id: clusters
+        run: echo "regions=['eu', 'us']" >> $GITHUB_OUTPUT
+  deploy:
+    environment: stage
+    needs: evaluate-clusters
+    name: ${{ matrix.cluster }} deploy
+    strategy:
+      matrix:
+        cluster: ${{ fromJSON(needs.evaluate-clusters.outputs.clusters) }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -15,4 +29,5 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 ${{ matrix.cluster }} job's status is ${{ job.status }}."
+      - run: echo '### [Open Test Report](https://mydomain.example.com)' >> $GITHUB_STEP_SUMMARY
